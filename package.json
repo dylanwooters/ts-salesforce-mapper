@@ -1,0 +1,36 @@
+{
+  "name": "ts-salesforce-mapper",
+  "version": "1.0.0",
+  "description": "Typescript object mapper for Salesforce.",
+  "main": "dist/SalesforceMapper.js",
+  "types": "dist/SalesforceMapper.d.ts",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\"",
+    "build": "npm run clean && tsc",
+    "clean": "rimraf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dylanwooters/ts-salesforce-mapper.git"
+  },
+  "keywords": [
+    "typescript",
+    "salesforce",
+    "mapper",
+    "node.js",
+    "jsforce"
+  ],
+  "author": "Dylan Wooters",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dylanwooters/ts-salesforce-mapper/issues"
+  },
+  "homepage": "https://github.com/dylanwooters/ts-salesforce-mapper#readme",
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13"
+  }
+}
