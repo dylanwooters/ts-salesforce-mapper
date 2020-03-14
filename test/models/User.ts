@@ -1,5 +1,5 @@
 import { Account } from './Account';
-import { SalesforceProp, SalesforceObj } from '../../src/SalesforceMapper';
+import { SalesforceProp, SalesforceObj, SalesforceParent } from '../../src/SalesforceMapper';
 
 @SalesforceObj("Contact")
 export class User {
@@ -29,9 +29,9 @@ export class User {
   @SalesforceProp("Status__c")
   public Status: string; 
 
-//   @SalesforceParent
-//   @SalesforceProp("Account")
-//   public Account: Account;
+  @SalesforceParent
+  @SalesforceProp("Account")
+  public Account!: Account;
 
 
   constructor(id: string, 
