@@ -4,15 +4,38 @@ import { mapToSalesforce, mapNestedToSalesforce, mapFromSalesforce } from '../sr
 import { Account } from './models/Account';
 import { User } from './models/User';
 import util from 'util';
+import * as jsforce from 'jsforce';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const expect = chai.expect;
+let conn: any;
 
 describe('SalesforceMapper Tests', () => {
+
+    //connect to salesforce before tests
+    before(() => {
+        let creds = JSON.parse(fs.readFileSync(path.resolve(__dirname,'../keys/salesforce.json')).toString());
+        conn = new jsforce.Connection({
+            //you can change loginUrl to connect to sandbox or prerelease env.
+            loginUrl : 'https://na111.salesforce.com/'
+        });
+        return conn.login(creds.username, creds.password, (err: any, userInfo: any) => {
+            if (err) { 
+                throw err;
+            }
+        });
+    });
+
+    //logout after tests
+    after(() => {
+        return conn.logout();
+    });
+
     //setup test data
-    let user = new User('u-123', new Date(), 'Dale Cooper', '11 WhiteLodge Ln', 'Twin Peaks', 'WA', '98170', true, 'active');
+    let user = new User('u-123', 'Dale', 'Cooper', 'Dale Cooper', '11 WhiteLodge Ln', 'Twin Peaks', 'WA', '98170', true, 'active');
     let account = new Account('a-987', 'Twin Peaks Sheriff Dept.', 'Agent Dale Cooper', [user]);
     let sfObj = { Id: 'u-123',
-        CreatedDate: new Date(),
         Full_Name__c: 'Saul Goodman',
         MailingStreet: '22 Hermanos St',
         MailingCity: 'Albuquerque',
@@ -31,7 +54,6 @@ describe('SalesforceMapper Tests', () => {
             { records: [ { 
                 Id: 'u-999',
                 attributes: { type: 'Contact', referenceId: 'ContactRef0' },
-                CreatedDate: new Date(),
                 Full_Name__c: 'Saul Goodman',
                 MailingStreet: '22 Hermanos St',
                 MailingCity: 'Albuquerque',
@@ -49,21 +71,32 @@ describe('SalesforceMapper Tests', () => {
         expect(sfObj).to.be.a('Object');
     });
 
+    it('should create mapped salesforce object in salesforce', (done) => {
+        let sfObj = mapToSalesforce(user);
+        conn.sobject("Contact").create(sfObj, function(err: any, ret: any) {
+            if (err) {
+                throw err;
+            }
+            expect(ret.success).to.be.true;
+            done();
+        });
+    });
+
     it('should map a nested application model to a salesforce object', () => {
         let sfObjNested = mapNestedToSalesforce(account);
-        console.log('Mapped Salesforce object (nested): ', util.inspect(sfObjNested, false, null, true));
+        //console.log('Mapped Salesforce object (nested): ', util.inspect(sfObjNested, false, null, true));
         expect(sfObjNested).to.be.a('Object');
     });
 
     it('should map a salesforce object to a model', () => {
         let model = mapFromSalesforce(user, sfObj);
-        console.log('Mapped model: ', util.inspect(model, false, null, true));
+        //console.log('Mapped model: ', util.inspect(model, false, null, true));
         expect(model).to.be.a('Object');
     });
 
     it('should map a nested salesforce object to a model', () => {
         let nestedModel = mapFromSalesforce(account, sfObjNested);
-        console.log('Mapped model (nested): ', util.inspect(nestedModel, false, null, true));
+        //console.log('Mapped model (nested): ', util.inspect(nestedModel, false, null, true));
         expect(nestedModel).to.be.a('Object');
     });
 });

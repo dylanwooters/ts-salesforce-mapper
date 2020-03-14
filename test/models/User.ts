@@ -5,8 +5,11 @@ import { SalesforceProp, SalesforceObj, SalesforceParent } from '../../src/Sales
 export class User {
   public Id: string;
 
-  @SalesforceProp("CreatedDate")
-  public CreatedDate: Date;
+  @SalesforceProp("FirstName")
+  public FirstName: string;
+
+  @SalesforceProp("LastName")
+  public LastName: string;
 
   @SalesforceProp("Full_Name__c")
   public FullName: string;
@@ -26,7 +29,7 @@ export class User {
   @SalesforceProp("Email_Verified__c")
   public EmailVerified: boolean;
 
-  @SalesforceProp("Status__c")
+  @SalesforceProp("Enrollment_Status__c")
   public Status: string; 
 
   @SalesforceParent
@@ -34,8 +37,9 @@ export class User {
   public Account!: Account;
 
 
-  constructor(id: string, 
-    createdDate: Date, 
+  constructor(id: string,
+    firstName: string,
+    lastName: string, 
     fullName: string, 
     street: string, 
     city: string, 
@@ -45,7 +49,8 @@ export class User {
     status: string
     ) {
         this.Id = id;
-        this.CreatedDate = createdDate;
+        this.FirstName = firstName,
+        this.LastName = lastName,
         this.FullName = fullName;
         this.Street = street;
         this.City = city;
