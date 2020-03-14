@@ -11,7 +11,7 @@ export function SalesforceProp(alias:string) {
 }
 
 //parent child decorators
-export function SalesforceChild(target: any, key: string)  {
+export function SalesforceChildren(target: any, key: string)  {
     Reflect.defineMetadata(propChildKey, propChildKey, target, key);
 }
 
@@ -24,7 +24,7 @@ export function getProp(target: any, key: string) {
     return Reflect.getMetadata(propMetadataKey, target, key);
 }
 
-export function isChild(target: any, key: string) {
+export function isChildren(target: any, key: string) {
     return Reflect.hasMetadata(propChildKey, target, key);
 }
 
@@ -82,7 +82,7 @@ export function mapNestedToSalesforce(target: any, child: boolean = false, child
         if (target.hasOwnProperty(property) && target[property] != undefined) {
             var sfProp = getProp(target, property);
             if (sfProp != undefined && !isParent(target, property)) {
-                if (isChild(target, property) && target[property].length > 0) {
+                if (isChildren(target, property) && target[property].length > 0) {
                     returnObj[sfProp] = {
                         records: []
                     };
@@ -120,7 +120,7 @@ export function mapFromSalesforce(target: any, sourceObj: any){
                     if (isParent(target, property) && sourceObj[sfProp]) {
                         returnObj[property] = mapFromSalesforce(target[property], sourceObj[sfProp]);
                     }
-                    else if (isChild(target, property) && sourceObj[sfProp] && sourceObj[sfProp]['records'].length > 0) {
+                    else if (isChildren(target, property) && sourceObj[sfProp] && sourceObj[sfProp]['records'].length > 0) {
                         returnObj[property] = new Array();
                         for(let i=0; i<sourceObj[sfProp]['records'].length; i++) { 
                             var childTarget = target[property][0];
