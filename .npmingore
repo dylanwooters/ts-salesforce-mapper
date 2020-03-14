@@ -1,1 +1,4 @@
 /test
+/keys
+node_modules
+*.tgz
