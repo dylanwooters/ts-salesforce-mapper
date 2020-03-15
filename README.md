@@ -6,15 +6,15 @@ This package maps Typescript classes to Salesforce objects, and vice-versa. You 
 2) It's good to have separation between your application and Salesforce, to avoid tight coupling.
 
 **Table of Contents**
-[Installation](#installation)
-[Usage](#usage)
-  [Decorate your classes](#decorate-your-classes)
-  [Map to Salesforce and back again](#map-to-salesforce-and-back-again)
-  [Nested objects and composite requests](#nested-objects-and-composite-requests)
-  [Getting Salesforce object and property names](#getting-salesforce-object-and-property-names)
-[Examples](#examples)
-[A note on property initialization](#a-note-on-property-initialization)
-[Release Notes](#release-notes)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Decorate your classes](#decorate-your-classes)
+  - [Map to Salesforce and back again](#map-to-salesforce-and-back-again)
+  - [Nested objects and composite requests](#nested-objects-and-composite-requests)
+  - [Getting Salesforce object and property names](#getting-salesforce-object-and-property-names)
+- [Examples](#examples)
+- [A note on property initialization](#a-note-on-property-initialization)
+- [Release Notes](#release-notes)
 
 # Installation
 
