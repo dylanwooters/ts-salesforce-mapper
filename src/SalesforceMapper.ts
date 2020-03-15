@@ -20,7 +20,7 @@ export function SalesforceParent(target: any, key: string)  {
 }
 
 //supporting functions
-export function getProp(target: any, key: string) {
+export function getSFProp(target: any, key: string) {
     return Reflect.getMetadata(propMetadataKey, target, key);
 }
 
@@ -47,7 +47,7 @@ export function SalesforceObj(alias:string) {
 }
 
 //supporting function
-export function getObj(target: any) {
+export function getSFObj(target: any) {
     return Reflect.getMetadata(objMetadataKey, target);
 }
 
@@ -58,7 +58,7 @@ export function mapToSalesforce(target: any){
 
     for (var property in target) {
         if (target.hasOwnProperty(property) && target[property] != undefined) {
-            var sfProp = getProp(target, property);
+            var sfProp = getSFProp(target, property);
             if (sfProp != undefined) {
                 returnObj[sfProp] = target[property];
             } else if (property == 'Id') {
@@ -73,14 +73,14 @@ export function mapToSalesforce(target: any){
 export function mapNestedToSalesforce(target: any, child: boolean = false, childNum: number = 0) {
     let returnObj: any = {
         attributes: {
-            type: getObj(target),
-            referenceId: getObj(target) + 'Ref' + childNum
+            type: getSFObj(target),
+            referenceId: getSFObj(target) + 'Ref' + childNum
         }
     };
 
     for (var property in target) {
         if (target.hasOwnProperty(property) && target[property] != undefined) {
-            var sfProp = getProp(target, property);
+            var sfProp = getSFProp(target, property);
             if (sfProp != undefined && !isParent(target, property)) {
                 if (isChildren(target, property) && target[property].length > 0) {
                     returnObj[sfProp] = {
@@ -115,7 +115,7 @@ export function mapFromSalesforce(target: any, sourceObj: any){
             if (property == "Id") {
                 returnObj[property] = sourceObj[property];
             } else {
-                var sfProp = getProp(target, property);
+                var sfProp = getSFProp(target, property);
                 if (sfProp != undefined) {
                     if (isParent(target, property) && sourceObj[sfProp]) {
                         returnObj[property] = mapFromSalesforce(target[property], sourceObj[sfProp]);

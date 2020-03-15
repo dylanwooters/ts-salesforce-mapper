@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import {describe, it} from 'mocha';
-import { mapToSalesforce, mapNestedToSalesforce, mapFromSalesforce, getObj } from '../src/SalesforceMapper';
+import { mapToSalesforce, mapNestedToSalesforce, mapFromSalesforce, getSFObj } from '../src/SalesforceMapper';
 import { Account } from './models/Account';
 import { User } from './models/User';
 import util from 'util';
@@ -62,7 +62,7 @@ describe('SalesforceMapper Tests', () => {
                 MailingState: 'NM',
                 MailingPostalCode: '87113',
                 Email_Verified__c: false,
-                Status__c: 'pending' 
+                Enrollment_Status__c: 'pending' 
             } ] } 
     };
 
@@ -75,7 +75,7 @@ describe('SalesforceMapper Tests', () => {
 
     it('should create a mapped salesforce object in salesforce', (done) => {
         let sfObj = mapToSalesforce(user);
-        conn.sobject(getObj(user)).create(sfObj, function(err: any, ret: any) {
+        conn.sobject(getSFObj(user)).create(sfObj, function(err: any, ret: any) {
             if (err) {
                 throw err;
             }
@@ -93,7 +93,7 @@ describe('SalesforceMapper Tests', () => {
     //TODO: test throws duplicate error - need to fix - maybe randomize Account name
     it('should create a mapped, nested salesforce object in salesforce', (done) => {
         let sfObjNested = mapNestedToSalesforce(account);
-        let url = compositeURL + getObj(account);
+        let url = compositeURL + getSFObj(account);
         conn.requestPost(url, sfObjNested, {}, function(err: any, ret: any) {
             console.log(ret);
             if (err) {
@@ -111,7 +111,7 @@ describe('SalesforceMapper Tests', () => {
     });
 
     it('it should map an object from salesforce to a model', (done) => {
-        conn.sobject(getObj(user)).retrieve('0033h000001sDwJAAU', function(err: any, ret: any) {
+        conn.sobject(getSFObj(user)).retrieve('0033h000001sDwJAAU', function(err: any, ret: any) {
             if (err) {
                 throw err;
             }
