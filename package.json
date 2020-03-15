@@ -18,7 +18,10 @@
     "salesforce",
     "mapper",
     "node.js",
-    "jsforce"
+    "rest",
+    "jsforce",
+    "composite",
+    "nested"
   ],
   "author": "Dylan Wooters",
   "license": "MIT",
