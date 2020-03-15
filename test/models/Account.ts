@@ -16,8 +16,6 @@ export class Account {
     @SalesforceProp("Contacts")
     public Users: User[];
 
-
-
     constructor(id: string, name: string, accountContactName: string, users: User[]) {  
         this.Id = id;
         this.Name = name;
