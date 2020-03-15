@@ -2,8 +2,8 @@
   "name": "ts-salesforce-mapper",
   "version": "1.0.0",
   "description": "Typescript object mapper for Salesforce.",
-  "main": "dist/SalesforceMapper.js",
-  "types": "dist/SalesforceMapper.d.ts",
+  "main": "dist/src/SalesforceMapper.js",
+  "types": "dist/src/SalesforceMapper.d.ts",
   "scripts": {
     "test": "./node_modules/.bin/mocha -r ts-node/register test/**/*.spec.ts",
     "build": "npm run clean && tsc",
