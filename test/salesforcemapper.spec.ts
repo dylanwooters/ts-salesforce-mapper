@@ -34,8 +34,8 @@ describe('SalesforceMapper Tests', () => {
     });
 
     //setup test data
-    let user = new User('u-123', 'Dale', 'Cooper', 'Dale Cooper', '11 Owl Crest Blvd', 'Twin Peaks', 'WA', '98170', true, 'active');
-    let account = new Account('a-987', 'Twin Peaks Sheriff Dept.', 'Agent Dale Cooper', [user]);
+    let user = new User('u-123', 'Dale', 'Cooper', 'Agent Dale Cooper', '11 Owl Crest Blvd', 'Twin Peaks', 'WA', '98170', true, 'active');
+    let account = new Account('a-987', 'Federal Bureau of Investigation', 'Agent Dale Cooper', [user]);
     
     let sfObj = { Id: 'u-123',
         Full_Name__c: 'Saul Goodman',
@@ -90,19 +90,19 @@ describe('SalesforceMapper Tests', () => {
         expect(sfObjNested).to.be.a('Object');
     });
 
-    //TODO: test throws duplicate error - need to fix
-    // it('should create a mapped, nested salesforce object in salesforce', (done) => {
-    //     let sfObjNested = mapNestedToSalesforce(account);
-    //     let url = compositeURL + getObj(account);
-    //     conn.requestPost(url, sfObjNested, {}, function(err: any, ret: any) {
-    //         console.log(ret);
-    //         if (err) {
-    //             throw err;
-    //         }
-    //         expect(ret.hasErrors).to.be.false;
-    //         done();
-    //     });
-    // });
+    //TODO: test throws duplicate error - need to fix - maybe randomize Account name
+    it('should create a mapped, nested salesforce object in salesforce', (done) => {
+        let sfObjNested = mapNestedToSalesforce(account);
+        let url = compositeURL + getObj(account);
+        conn.requestPost(url, sfObjNested, {}, function(err: any, ret: any) {
+            console.log(ret);
+            if (err) {
+                throw err;
+            }
+            expect(ret.hasErrors).to.be.false;
+            done();
+        });
+    });
 
     it('should map a salesforce object to a model', () => {
         let model = mapFromSalesforce(user, sfObj);
