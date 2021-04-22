@@ -7,6 +7,7 @@ import util from 'util';
 import * as jsforce from 'jsforce';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as randomWords from 'random-words';
 
 const expect = chai.expect;
 let conn: any;
@@ -92,10 +93,12 @@ describe('SalesforceMapper Tests', () => {
 
     //TODO: test throws duplicate error - need to fix - maybe randomize Account name
     it('should create a mapped, nested salesforce object in salesforce', (done) => {
-        let sfObjNested = mapNestedToSalesforce(account);
+        let randomAccount = account;
+        randomAccount.Name = randomWords.default({exactly:1, wordsPerString:2})[0];
+        let sfObjNested = mapNestedToSalesforce(randomAccount);
+        //use some random words for the account name, to avoid DUPLICATES_DETECTED error in Salesforce
         let url = compositeURL + getSFObj(account);
         conn.requestPost(url, sfObjNested, {}, function(err: any, ret: any) {
-            console.log(ret);
             if (err) {
                 throw err;
             }
@@ -116,7 +119,6 @@ describe('SalesforceMapper Tests', () => {
                 throw err;
             }
             let u = mapFromSalesforce(user, ret);
-            console.log(u);
             expect(u).to.be.a('Object');
             done();
         })

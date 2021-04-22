@@ -39,9 +39,11 @@
     "mocha": "^7.1.0",
     "rimraf": "^3.0.2",
     "ts-node": "^8.6.2",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.2",
+    "random-words": "^1.1.1"
   },
   "dependencies": {
+    "@types/random-words": "^1.1.0",
     "reflect-metadata": "^0.1.13"
   }
 }
